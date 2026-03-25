@@ -10,9 +10,10 @@ type SearchOptions = { title?: string; tag?: string };
 
 class PelisCollection {
   getAll(): Promise<Peli[]> {
-    return jsonfile.readFile("./pelis.json").then((pelis) => {
-      return pelis;
-    });
+    return jsonfile
+      .readFile("./pelis.json")
+      .then((pelis) => pelis)
+      .catch(() => []);  // si aún no hay archivo, devolvemos []
   }
 
   getById(id: number): Promise<Peli> {
@@ -37,15 +38,15 @@ class PelisCollection {
       return coincide;
     });
   }
-async add(peli: Peli): Promise<boolean> {
-  const existe = await this.getById(peli.id);
-  if (existe) return false;
-  const pelis = await this.getAll();
-  pelis.push(peli);
-  await jsonfile.writeFile("./pelis.json", pelis);
-  return true;
-}
 
+  async add(peli: Peli): Promise<boolean> {
+    const existe = await this.getById(peli.id);
+    if (existe) return false;
+    const pelis = await this.getAll();
+    pelis.push(peli);
+    await jsonfile.writeFile("./pelis.json", pelis);
+    return true;
+  }
 }
 
 export { PelisCollection, Peli };
