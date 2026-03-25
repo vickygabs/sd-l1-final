@@ -38,18 +38,23 @@ async function main() {
   }
   if (comando === "search"){
     const title = args.title;
-    const tag = args.search;
+    const tag = args.tag;
     const opciones: any = {};  
     if (title)opciones.search = {...opciones.search, title}
     if(tag)opciones.search = {...opciones.search, tag};
 
     const resultados = await controller.get(opciones);
-    if(opciones.search > 0){
+    if(resultados.length> 0){
       console.log("Películas encontradas:", resultados);
     } else{
       console.log("No se encontraron películas con esos criterios");}
   
   }
+    if (!comando) {
+    const all = await controller.get();
+    console.log("Todas las pelis:", all);
+  }
+
 
 }
 
