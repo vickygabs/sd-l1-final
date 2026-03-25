@@ -37,6 +37,15 @@ class PelisCollection {
       return coincide;
     });
   }
+async add(peli: Peli): Promise<boolean> {
+  const existe = await this.getById(peli.id);
+  if (existe) return false;
+  const pelis = await this.getAll();
+  pelis.push(peli);
+  await jsonfile.writeFile("./pelis.json", pelis);
+  return true;
+}
+
 }
 
 export { PelisCollection, Peli };

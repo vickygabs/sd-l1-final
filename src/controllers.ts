@@ -11,8 +11,12 @@ tag?: string;
 class PelisController {
 constructor() {
 this.model = new PelisCollection();
-}
 
+}
+async add(peli: Peli): Promise<boolean> {
+    // delega a model.add
+    return this.model.add(peli);
+  }
 async get(options?: Options): Promise<Peli[]> {
 if (options?.id) {
 const peli = await this.model.getById(options.id);
